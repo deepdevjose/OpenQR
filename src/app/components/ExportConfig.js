@@ -62,13 +62,7 @@ export default function ExportConfig({ resolution, setResolution, ecc, setEcc, m
                     </div>
                 </div>
 
-                {/* Mode Display (Read-only, synced) */}
-                <div className={styles.configItem}>
-                    <span className={styles.configLabel}>MODE</span>
-                    <span className={styles.staticValue}>
-                        {mode.toUpperCase()}
-                    </span>
-                </div>
+
 
                 {/* Transparency Toggle */}
                 <div className={styles.configItem}>

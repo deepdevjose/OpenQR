@@ -43,6 +43,13 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
 
   useEffect(() => {
     if (qrCode) {
+      // Trigger update animation
+      if (ref.current) {
+        ref.current.classList.remove(styles.updating);
+        void ref.current.offsetWidth; // Trigger reflow
+        ref.current.classList.add(styles.updating);
+      }
+
       qrCode.update({
         data: url,
         image: options.image,
@@ -51,17 +58,24 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
           type: options.dotsType
         },
         backgroundOptions: {
-          color: options.bgColor,
+          color: transparentBg ? 'rgba(0,0,0,0)' : options.bgColor,
         },
         qrOptions: {
           errorCorrectionLevel: ecc
         }
       });
     }
-  }, [url, options, qrCode, ecc]);
+  }, [url, options, qrCode, ecc, transparentBg]);
 
   const onDownloadClick = async (extension) => {
     if (qrCode) {
+      // Trigger flash animation
+      if (ref.current) {
+        ref.current.style.animation = 'none';
+        void ref.current.offsetWidth;
+        ref.current.style.animation = 'flash 0.5s';
+      }
+
       // Micro-feedback
       confetti({
         particleCount: 50,
@@ -79,7 +93,7 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
           type: options.dotsType
         },
         cornersSquareOptions: {
-          type: options.dotsType === 'dot' ? 'dot' : 'square', // Match corners if dots
+          type: options.dotsType === 'dot' ? 'dot' : 'square',
           color: options.dotsColor
         },
         cornersDotOptions: {
@@ -87,13 +101,13 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
           color: options.dotsColor
         },
         backgroundOptions: {
-          color: transparentBg ? 'transparent' : options.bgColor,
+          color: transparentBg ? 'rgba(0,0,0,0)' : options.bgColor,
         },
         imageOptions: {
           crossOrigin: 'anonymous',
           margin: 10,
-          imageSize: 0.4, // Responsive size
-          hideBackgroundDots: true // Ensure dots don't bleed through
+          imageSize: 0.4,
+          hideBackgroundDots: true
         },
         qrOptions: {
           errorCorrectionLevel: ecc
@@ -101,21 +115,10 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
       };
 
       if (extension === 'png') {
-        // Use selected resolution
         const exportSize = parseInt(resolution) || 2000;
-
-        // Force update with full config
-        qrCode.update({
-          ...currentConfig,
-          width: exportSize,
-          height: exportSize
-        });
-
-        // Brief delay to ensure render
+        qrCode.update({ ...currentConfig, width: exportSize, height: exportSize });
         await new Promise(resolve => setTimeout(resolve, 50));
-
         await qrCode.download({ extension: extension, name: 'openqr-code' });
-        // Revert to preview size
         qrCode.update({ width: 300, height: 300 });
       } else {
         qrCode.update(currentConfig);
@@ -235,7 +238,7 @@ export default function Home() {
                     id="logo-upload"
                     hidden
                   />
-                  <label htmlFor="logo-upload" className="pixel-btn">
+                  <label htmlFor="logo-upload" className={`pixel-btn ${styles.uploadBtn}`}>
                     {options.image ? 'CHANGE LOGO' : 'UPLOAD LOGO'}
                   </label>
                   {options.image && (
@@ -265,6 +268,10 @@ export default function Home() {
                     resolution={resolution}
                     transparentBg={transparentBg}
                   />
+                  <div className={styles.qrMetadata}>
+                    <span>No Data Stored</span>
+                    <span>Client-Side</span>
+                  </div>
                 </div>
 
                 {/* Interactive Export Config */}

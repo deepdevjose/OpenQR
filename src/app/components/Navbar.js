@@ -5,7 +5,7 @@ export default function Navbar({ mode, setMode }) {
         <nav className={styles.navbar}>
             <div className={styles.brand}>
                 <span className={styles.brandName}>
-                    OpenQR <span className={styles.betaBadge}>BETA</span>
+                    Open<span className={styles.pixelLetter}>Q</span>R <span className={styles.betaBadge}>BETA</span>
                 </span>
                 <span className={styles.brandTagline}>Free. Private. Infinite.</span>
             </div>

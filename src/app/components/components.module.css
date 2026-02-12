@@ -315,24 +315,86 @@
 
 /* Export Config Panel */
 .exportConfig {
-    border-top: 1px solid #333;
+    border: 1px solid #222;
+    background: rgba(255, 255, 255, 0.02);
     margin-top: 20px;
-    padding-top: 15px;
+    padding: 15px;
     width: 100%;
+    /* Alignment fix: Matches preview width better */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pixelLetter {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--accent);
+    display: inline-block;
+    position: relative;
+    /* QR Corner style */
+    border: 2px solid var(--accent);
+    background: var(--accent);
+    color: #000;
+    font-size: 0.8em;
+    padding: 0 2px;
+    margin: 0 1px;
+    transform: none;
+    /* Removed rotation for cleaner look */
+    box-shadow: 2px 2px 0 #000;
+}
+
+/* Upload Button Special Style */
+.uploadBtn {
+    width: 100%;
+    display: block;
+    text-align: center;
+    border: 2px dashed #444;
+    color: #888;
+    transition: all 0.2s;
+}
+
+.uploadBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 15px rgba(255, 94, 0, 0.1);
+    background: rgba(255, 94, 0, 0.05);
 }
 
 .configHeader {
     font-family: var(--font-terminal);
     color: #666;
     font-size: 0.7rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     letter-spacing: 1px;
+    text-align: center;
+    /* Centered header */
 }
 
 .configGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    gap: 10px;
+    align-items: end;
+    /* Better vertical alignment */
+}
+
+/* Tooltip for ECC */
+.eccBtn {
+    position: relative;
+}
+
+.eccBtn:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    border: 1px solid #333;
+    padding: 4px 8px;
+    color: #ccc;
+    font-size: 0.6rem;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
 }
 
 @media (max-width: 768px) {
