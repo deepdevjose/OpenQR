@@ -175,8 +175,23 @@ export default function Home() {
     { value: 'classy-rounded', label: 'Classy Rounded' }
   ];
 
+  const mainRef = useRef(null);
+
+  const triggerShake = () => {
+    if (mainRef.current) {
+      mainRef.current.classList.remove(styles.shake);
+      void mainRef.current.offsetWidth;
+      mainRef.current.classList.add(styles.shake);
+      setTimeout(() => {
+        if (mainRef.current) mainRef.current.classList.remove(styles.shake);
+      }, 400);
+    }
+  };
+
+  const normalizeColor = (c) => c ? c.toLowerCase().trim() : '';
+
   return (
-    <main className={styles.main}>
+    <main className={styles.main} ref={mainRef}>
       <Navbar mode={mode} setMode={setMode} />
 
       <div className={styles.content}>
@@ -202,7 +217,13 @@ export default function Home() {
                   <label>Dots Color</label>
                   <RetroColorPicker
                     value={options.dotsColor}
-                    onChange={(color) => setOptions({ ...options, dotsColor: color })}
+                    onChange={(color) => {
+                      if (normalizeColor(color) === normalizeColor(options.bgColor)) {
+                        triggerShake();
+                        return;
+                      }
+                      setOptions({ ...options, dotsColor: color });
+                    }}
                     label="DOTS_COLOR"
                   />
                 </div>
@@ -211,7 +232,13 @@ export default function Home() {
                   <label>Background</label>
                   <RetroColorPicker
                     value={options.bgColor}
-                    onChange={(color) => setOptions({ ...options, bgColor: color })}
+                    onChange={(color) => {
+                      if (normalizeColor(color) === normalizeColor(options.dotsColor)) {
+                        triggerShake();
+                        return;
+                      }
+                      setOptions({ ...options, bgColor: color });
+                    }}
                     label="BACKGROUND"
                   />
                 </div>
