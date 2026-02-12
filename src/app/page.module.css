@@ -1,0 +1,205 @@
+/* Retro UI Overhaul Styles */
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2rem;
+  gap: 3rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.header {
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: var(--font-header);
+  font-size: 3rem;
+  margin: 0;
+  color: var(--foreground);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.beta {
+  font-size: 0.8rem;
+  color: var(--accent);
+  vertical-align: super;
+  animation: blink 2s infinite;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  flex: 1;
+}
+
+.section {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-family: var(--font-terminal);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #888;
+}
+
+.label::before {
+  content: "> ";
+  color: var(--accent);
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+
+.previewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Hero QR Frame */
+.qrFrame {
+  position: relative;
+  padding: 2px;
+  background: linear-gradient(180deg, var(--border-color), transparent);
+}
+
+.qrWrapper {
+  border: 2px solid var(--border-color);
+  padding: 30px;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.qrWrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+.qrMetadata {
+  font-family: var(--font-terminal);
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 10px;
+  display: flex;
+  gap: 1rem;
+  text-transform: uppercase;
+}
+
+.previewLabel {
+  font-family: var(--font-terminal);
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+
+.downloadButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+.controlGroup {
+  margin-bottom: 2rem;
+}
+
+.controlGroup label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-family: var(--font-terminal);
+  font-size: 0.8rem;
+  color: #CCC;
+}
+
+
+.colorInput {
+  appearance: none;
+  /* Standard property */
+  -webkit-appearance: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.colorInput::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.colorInput::-webkit-color-swatch {
+  border: 2px solid var(--border-color);
+  border-radius: 0;
+}
+
+.colorValue {
+  font-family: var(--font-terminal);
+  margin-left: 10px;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.controlGroup select {
+  cursor: pointer;
+}
+
+.fileUpload {
+  display: flex;
+  align-items: center;
+}
