@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import QRCodeStyling from 'qr-code-styling';
+import confetti from 'canvas-confetti';
 import styles from './page.module.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -55,8 +56,18 @@ const QRPreview = ({ url, options }) => {
     }
   }, [url, options, qrCode]);
 
+  // ...
+
   const onDownloadClick = async (extension) => {
     if (qrCode) {
+      // Micro-feedback
+      confetti({
+        particleCount: 50,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ['#FF5E00', '#00FF41', '#ffffff']
+      });
+
       if (extension === 'png') {
         // High Resolution Download
         qrCode.update({ width: 2000, height: 2000 });

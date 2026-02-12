@@ -3,8 +3,16 @@ import styles from './components.module.css';
 import { Palette } from 'lucide-react';
 
 const PRESET_COLORS = [
-    '#000000', '#FFFFFF', '#FF5E00', '#00FF41', '#00E5FF',
-    '#FF0055', '#FFFF00', '#8800FF', '#444444', '#DDDDDD'
+    { hex: '#000000', label: 'VOID' },
+    { hex: '#FFFFFF', label: 'PAPER' },
+    { hex: '#FF5E00', label: 'AMBER' },
+    { hex: '#00FF41', label: 'CRT' },
+    { hex: '#00E5FF', label: 'ICE' },
+    { hex: '#FF0055', label: 'CRIMSON' },
+    { hex: '#FFFF00', label: 'LIME' },
+    { hex: '#8800FF', label: 'CYBER' },
+    { hex: '#444444', label: 'SLATE' },
+    { hex: '#DDDDDD', label: 'SILVER' }
 ];
 
 export default function RetroColorPicker({ value, onChange, label }) {
@@ -34,13 +42,14 @@ export default function RetroColorPicker({ value, onChange, label }) {
             {isOpen && (
                 <div className={styles.controlDropdown}>
                     <div className={styles.colorGrid}>
-                        {PRESET_COLORS.map(color => (
+                        {PRESET_COLORS.map(({ hex, label }) => (
                             <div
-                                key={color}
-                                className={`${styles.colorSwatch} ${value === color ? styles.selected : ''}`}
-                                style={{ background: color }}
+                                key={hex}
+                                className={`${styles.colorSwatch} ${value === hex ? styles.selected : ''}`}
+                                style={{ background: hex }}
+                                data-label={label}
                                 onClick={() => {
-                                    onChange(color);
+                                    onChange(hex);
                                     setIsOpen(false);
                                 }}
                             />

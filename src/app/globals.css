@@ -52,22 +52,21 @@ body {
   box-shadow: 4px 4px 0px 0px var(--border-color);
 }
 
+/* Retro Button */
 .pixel-btn {
   background: var(--background);
+  border: 2px solid var(--border-color);
   color: var(--foreground);
-  border: 2px solid var(--foreground);
+  font-family: var(--font-pixel);
+  font-size: 1rem;
   padding: 10px 20px;
-  font-family: var(--font-header);
-  font-size: 12px;
-  text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 4px 4px 0px 0px var(--foreground);
+  box-shadow: 4px 4px 0px 0px var(--border-color);
+  transition: transform 0.1s;
+  text-transform: uppercase;
 }
 
-.pixel-btn hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px 0px var(--foreground);
+.pixel-btn:hover {
   text-shadow: 0 0 5px var(--foreground);
 }
 

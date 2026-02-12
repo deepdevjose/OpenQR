@@ -10,21 +10,24 @@ export default function Navbar({ mode, setMode }) {
                 <span className={styles.brandTagline}>Free. Private. Infinite.</span>
             </div>
 
-            <div className={styles.segmentedControl}>
-                <button
-                    className={`${styles.segmentBtn} ${mode === 'static' ? styles.activeSegment : ''}`}
-                    onClick={() => setMode('static')}
-                    title="Direct Link"
-                >
-                    STATIC
-                </button>
-                <button
-                    className={`${styles.segmentBtn} ${mode === 'dynamic' ? styles.activeSegment : ''}`}
-                    onClick={() => setMode('dynamic')}
-                    title="Editable Link"
-                >
-                    DYNAMIC
-                </button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span className={styles.modeLabel}>MODE:</span>
+                <div className={styles.segmentedControl}>
+                    <button
+                        className={`${styles.segmentBtn} ${mode === 'static' ? styles.activeSegment : ''}`}
+                        onClick={() => setMode('static')}
+                        title="Direct Link"
+                    >
+                        [ STATIC ]
+                    </button>
+                    <button
+                        className={`${styles.segmentBtn} ${mode === 'dynamic' ? styles.activeSegment : ''}`}
+                        onClick={() => setMode('dynamic')}
+                        title="Editable Link"
+                    >
+                        [ DYNAMIC ]
+                    </button>
+                </div>
             </div>
         </nav>
     );

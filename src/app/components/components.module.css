@@ -1,17 +1,41 @@
+/* Custom Scrollbar (Webkit) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0B0B0F;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 0;
+    border: 1px solid #111;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+    border-color: var(--accent);
+}
+
 /* Navbar Styles */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2rem;
     border-bottom: 2px solid var(--border-color);
-    background: rgba(11, 11, 15, 0.95);
+    background: rgba(5, 5, 8, 0.98);
+    /* Deeper background */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* Subtle depth */
 }
 
 @media (max-width: 600px) {
@@ -84,17 +108,27 @@
     border: 1px solid var(--accent);
 }
 
+.modeLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    color: #666;
+    margin-right: 15px;
+    letter-spacing: 1px;
+}
+
 /* Footer Styles */
 .footer {
-    border-top: 2px solid var(--border-color);
-    padding: 1rem 2rem;
-    background: #000;
+    border-top: 2px solid #222;
+    /* Lower contrast */
+    padding: 0.8rem 2rem;
+    background: #050508;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: var(--font-terminal);
     font-size: 0.7rem;
-    color: #666;
+    color: #555;
+    /* Lower contrast */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -108,14 +142,14 @@
 }
 
 .footerLink {
-    color: #666;
+    color: #555;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .footerLink:hover {
-    color: var(--accent);
-    text-decoration: underline;
+    color: #888;
+    text-decoration: none;
 }
 
 .metadata {
@@ -199,15 +233,42 @@
     padding: 10px;
 }
 
+/* Labeled Color Presets */
 .colorSwatch {
     width: 100%;
     aspect-ratio: 1;
     border: 2px solid #333;
     cursor: pointer;
+    position: relative;
+    transition: transform 0.1s;
 }
 
 .colorSwatch:hover,
 .colorSwatch.selected {
     border-color: #fff;
     transform: scale(1.1);
+}
+
+.colorSwatch:hover::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: var(--accent);
+    padding: 4px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+    border: 1px solid var(--accent);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Button & Active States */
+.segmentBtn:active,
+.pixel-btn:active {
+    transform: translateY(2px);
+    /* Press-in effect */
+    opacity: 0.8;
 }
