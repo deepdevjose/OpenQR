@@ -223,8 +223,8 @@
 
 @media (max-width: 768px) {
   .main {
-    padding: 6rem 1rem 8rem 1rem;
-    /* Reduced padding */
+    padding: 10rem 1rem 8rem 1rem;
+    /* Increased top padding for mobile navbar */
     gap: 2rem;
   }
 
@@ -241,6 +241,13 @@
   }
 }
 
+@media (max-width: 600px) {
+  .main {
+    padding-top: 13rem;
+    /* Extra padding for stacked navbar */
+  }
+}
+
 .controlGroup {
   margin-bottom: 2rem;
 }
@@ -251,6 +258,12 @@
   font-family: var(--font-terminal);
   font-size: 0.8rem;
   color: #CCC;
+}
+
+[data-theme='light'] .controlGroup label {
+  color: #4a4a4a;
+  /* Darker grey for better readability */
+  font-weight: 500;
 }
 
 

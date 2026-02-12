@@ -1,0 +1,22 @@
+{
+    "name": "OpenQR",
+    "short_name": "OpenQR",
+    "description": "Free, Private, Infinite QR Generator",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#FF5E00",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait"
+}

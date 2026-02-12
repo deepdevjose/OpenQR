@@ -16,32 +16,17 @@ export default function ExportConfig({ resolution, setResolution, ecc, setEcc, m
                 {/* Resolution Selector */}
                 <div className={styles.configItem}>
                     <span className={styles.configLabel}>RESOLUTION (PX)</span>
-                    <div className={styles.resControl}>
-                        <input
-                            type="number"
-                            className={styles.resInput}
-                            value={resolution}
-                            onChange={(e) => {
-                                const val = parseInt(e.target.value);
-                                setResolution(isNaN(val) ? 0 : val);
-                            }}
-                            min="100"
-                            max="8192"
-                        />
-                        <div className={styles.resPresets}>
+                    <div className={styles.eccSelector}>
+                        {[1000, 2000, 3000, 4000].map((res) => (
                             <button
-                                className={`${styles.resPresetBtn} ${resolution === 1000 ? styles.activePreset : ''}`}
-                                onClick={() => setResolution(1000)}
+                                key={res}
+                                className={`${styles.eccBtn} ${resolution === res ? styles.activeEcc : ''}`}
+                                onClick={() => setResolution(res)}
+                                title={`${res}x${res} px`}
                             >
-                                1K
+                                {res / 1000}K
                             </button>
-                            <button
-                                className={`${styles.resPresetBtn} ${resolution === 2000 ? styles.activePreset : ''}`}
-                                onClick={() => setResolution(2000)}
-                            >
-                                2K
-                            </button>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
