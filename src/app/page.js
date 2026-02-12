@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import RetroSelect from './components/RetroSelect';
 import RetroColorPicker from './components/RetroColorPicker';
 import ExportConfig from './components/ExportConfig';
+import Scanner from './components/Scanner';
 
 // Placeholder for the QR Code Component
 const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
@@ -165,6 +166,7 @@ export default function Home() {
   };
 
   const [mode, setMode] = useState('static'); // 'static' or 'dynamic'
+  const [activeTab, setActiveTab] = useState('generate'); // 'generate' or 'scan'
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
@@ -204,151 +206,171 @@ export default function Home() {
 
   const normalizeColor = (c) => c ? c.toLowerCase().trim() : '';
 
+  const handleScanResult = (resultText) => {
+    setUrl(resultText);
+    setActiveTab('generate');
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <main className={styles.main} ref={mainRef}>
-      <Navbar theme={theme} toggleTheme={toggleTheme} mode={mode} setMode={setMode} />
+      <Navbar
+        theme={theme}
+        toggleTheme={toggleTheme}
+        mode={mode}
+        setMode={setMode}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
-      <div className={styles.content}>
-        {mode === 'static' ? (
-          <>
-            <div className={styles.controls}>
-              {/* URL Input */}
-              <section className={styles.section}>
-                <label className={styles.label}>1. Destination URL</label>
-                <input
-                  className="pixel-input"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://your-website.com"
-                />
-              </section>
-
-              {/* Style Config */}
-              <section className={styles.section}>
-                <label className={styles.label}>2. Visual DNA</label>
-
-                <div className={styles.controlGroup}>
-                  <label>Dots Color</label>
-                  <RetroColorPicker
-                    value={options.dotsColor}
-                    onChange={(color) => {
-                      if (normalizeColor(color) === normalizeColor(options.bgColor)) {
-                        triggerShake();
-                        return;
-                      }
-                      setOptions({ ...options, dotsColor: color });
-                    }}
-                    label="DOTS_COLOR"
-                  />
-                </div>
-
-                <div className={styles.controlGroup}>
-                  <label>Background</label>
-                  <RetroColorPicker
-                    value={options.bgColor}
-                    onChange={(color) => {
-                      if (normalizeColor(color) === normalizeColor(options.dotsColor)) {
-                        triggerShake();
-                        return;
-                      }
-                      setOptions({ ...options, bgColor: color });
-                    }}
-                    label="BACKGROUND"
-                  />
-                </div>
-
-                <div className={styles.controlGroup}>
-                  <label>Module Shape</label>
-                  <RetroSelect
-                    value={options.dotsType}
-                    options={shapeOptions}
-                    onChange={(val) => setOptions({ ...options, dotsType: val })}
-                    label="SHAPE"
-                  />
-                </div>
-              </section>
-
-              {/* Logo Upload */}
-              <section className={styles.section}>
-                <label className={styles.label}>3. Organization Logo</label>
-                <div className={styles.fileUpload}>
+      {activeTab === 'scan' ? (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Scanner onGenerateFromResult={handleScanResult} />
+        </div>
+      ) : (
+        <div className={styles.content}>
+          {mode === 'static' ? (
+            <>
+              <div className={styles.controls}>
+                {/* URL Input */}
+                <section className={styles.section}>
+                  <label className={styles.label}>1. Destination URL</label>
                   <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    id="logo-upload"
-                    hidden
+                    className="pixel-input"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="https://your-website.com"
                   />
-                  <label htmlFor="logo-upload" className={`pixel-btn ${styles.uploadBtn}`}>
-                    {options.image ? 'CHANGE LOGO' : 'UPLOAD LOGO'}
-                  </label>
-                  {options.image && (
-                    <button
-                      className="pixel-btn"
-                      style={{ marginLeft: '10px' }}
-                      onClick={() => setOptions({ ...options, image: null })}
-                    >
-                      REMOVE
-                    </button>
-                  )}
-                </div>
-                <p style={{ fontSize: '0.8rem', marginTop: '10px', color: '#666' }}>
-                  *Auto-centers with High Error Correction
-                </p>
-              </section>
-            </div>
+                </section>
 
-            <div className={styles.preview}>
-              <div className={styles.previewContainer}>
-                <div className={styles.previewLabel}>&gt; PREVIEW OUTPUT</div>
-                <div className={styles.qrFrame}>
-                  <QRPreview
-                    url={url}
-                    options={options}
-                    ecc={ecc}
-                    resolution={resolution}
-                    transparentBg={transparentBg}
-                  />
-                  <div className={styles.qrMetadata}>
-                    <span>No Data Stored</span>
-                    <span>Client-Side</span>
+                {/* Style Config */}
+                <section className={styles.section}>
+                  <label className={styles.label}>2. Visual DNA</label>
+
+                  <div className={styles.controlGroup}>
+                    <label>Dots Color</label>
+                    <RetroColorPicker
+                      value={options.dotsColor}
+                      onChange={(color) => {
+                        if (normalizeColor(color) === normalizeColor(options.bgColor)) {
+                          triggerShake();
+                          return;
+                        }
+                        setOptions({ ...options, dotsColor: color });
+                      }}
+                      label="DOTS_COLOR"
+                    />
                   </div>
-                </div>
 
-                {/* Interactive Export Config */}
-                <ExportConfig
-                  resolution={resolution}
-                  setResolution={setResolution}
-                  ecc={ecc}
-                  setEcc={setEcc}
-                  mode={mode}
-                  transparentBg={transparentBg}
-                  setTransparentBg={setTransparentBg}
-                />
+                  <div className={styles.controlGroup}>
+                    <label>Background</label>
+                    <RetroColorPicker
+                      value={options.bgColor}
+                      onChange={(color) => {
+                        if (normalizeColor(color) === normalizeColor(options.dotsColor)) {
+                          triggerShake();
+                          return;
+                        }
+                        setOptions({ ...options, bgColor: color });
+                      }}
+                      label="BACKGROUND"
+                    />
+                  </div>
+
+                  <div className={styles.controlGroup}>
+                    <label>Module Shape</label>
+                    <RetroSelect
+                      value={options.dotsType}
+                      options={shapeOptions}
+                      onChange={(val) => setOptions({ ...options, dotsType: val })}
+                      label="SHAPE"
+                    />
+                  </div>
+                </section>
+
+                {/* Logo Upload */}
+                <section className={styles.section}>
+                  <label className={styles.label}>3. Organization Logo</label>
+                  <div className={styles.fileUpload}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      id="logo-upload"
+                      hidden
+                    />
+                    <label htmlFor="logo-upload" className={`pixel-btn ${styles.uploadBtn}`}>
+                      {options.image ? 'CHANGE LOGO' : 'UPLOAD LOGO'}
+                    </label>
+                    {options.image && (
+                      <button
+                        className="pixel-btn"
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => setOptions({ ...options, image: null })}
+                      >
+                        REMOVE
+                      </button>
+                    )}
+                  </div>
+                  <p style={{ fontSize: '0.8rem', marginTop: '10px', color: '#666' }}>
+                    *Auto-centers with High Error Correction
+                  </p>
+                </section>
               </div>
+
+              <div className={styles.preview}>
+                <div className={styles.previewContainer}>
+                  <div className={styles.previewLabel}>&gt; PREVIEW OUTPUT</div>
+                  <div className={styles.qrFrame}>
+                    <QRPreview
+                      url={url}
+                      options={options}
+                      ecc={ecc}
+                      resolution={resolution}
+                      transparentBg={transparentBg}
+                    />
+                    <div className={styles.qrMetadata}>
+                      <span>No Data Stored</span>
+                      <span>Client-Side</span>
+                    </div>
+                  </div>
+
+                  {/* Interactive Export Config */}
+                  <ExportConfig
+                    resolution={resolution}
+                    setResolution={setResolution}
+                    ecc={ecc}
+                    setEcc={setEcc}
+                    mode={mode}
+                    transparentBg={transparentBg}
+                    setTransparentBg={setTransparentBg}
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className={styles.dynamicInfo}>
+              <h2 className={styles.infoTitle}>Dynamic QR Codes</h2>
+              <p className={styles.infoText}>
+                Dynamic QRs allow you to change the destination URL after printing.
+                This requires a server to redirect the short URL to your destination.
+              </p>
+              <div className={styles.infoBox}>
+                <h3>How to get Dynamic QRs for Free?</h3>
+                <ol>
+                  <li>Use a free URL shortener like <strong>bit.ly</strong> or <strong>tinyurl.com</strong>.</li>
+                  <li>Paste the shortened URL into the <strong>Static</strong> generator.</li>
+                  <li>If you need to change the destination later, just update the link in your URL shortener dashboard!</li>
+                </ol>
+              </div>
+              <button className="pixel-btn pixel-btn-accent" onClick={() => setMode('static')}>
+                GO CREATE (STATIC)
+              </button>
             </div>
-          </>
-        ) : (
-          <div className={styles.dynamicInfo}>
-            <h2 className={styles.infoTitle}>Dynamic QR Codes</h2>
-            <p className={styles.infoText}>
-              Dynamic QRs allow you to change the destination URL after printing.
-              This requires a server to redirect the short URL to your destination.
-            </p>
-            <div className={styles.infoBox}>
-              <h3>How to get Dynamic QRs for Free?</h3>
-              <ol>
-                <li>Use a free URL shortener like <strong>bit.ly</strong> or <strong>tinyurl.com</strong>.</li>
-                <li>Paste the shortened URL into the <strong>Static</strong> generator.</li>
-                <li>If you need to change the destination later, just update the link in your URL shortener dashboard!</li>
-              </ol>
-            </div>
-            <button className="pixel-btn pixel-btn-accent" onClick={() => setMode('static')}>
-              GO CREATE (STATIC)
-            </button>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
       <Footer />
     </main>
   );
