@@ -8,11 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
     "canvas-confetti": "^1.9.4",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "qr-code-styling": "^1.9.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3"
   }
 }

@@ -18,9 +18,18 @@ const pressStart = Press_Start_2P({
 export const metadata = {
   title: "OpenQR - Free Retro QR Generator",
   description: "Generate Dynamic-looking Static QRs with a pixel-perfect design.",
+  manifest: "/manifest.json",
   icons: {
     icon: '/icon.png',
+    apple: '/icon.png',
   },
+};
+
+export const viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }) {
