@@ -143,9 +143,22 @@
 }
 
 @media (max-width: 768px) {
+  .main {
+    padding: 6rem 1rem 8rem 1rem;
+    /* Reduced padding */
+    gap: 2rem;
+  }
+
   .content {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .qrWrapper {
+    padding: 15px;
+    /* Reduced padding for QR frame */
+    max-width: 100%;
+    overflow: hidden;
   }
 }
 

@@ -18,6 +18,9 @@ const pressStart = Press_Start_2P({
 export const metadata = {
   title: "OpenQR - Free Retro QR Generator",
   description: "Generate Dynamic-looking Static QRs with a pixel-perfect design.",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
