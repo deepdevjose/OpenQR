@@ -1,65 +1,66 @@
-# OpenQR
+# OpenQR 
 
-Retro-inspired QR generator with a gaming UI twist. (High Res & Vector Support).
+This is a retro-fueled, no-nonsense QR code generator with a gaming UI twist. High-Res & Vector Support included.
 
-**Live App:**  
+**Live Demo:** [open-qr-mocha.vercel.app](https://open-qr-mocha.vercel.app/)
 
+---
 
-## Why I Built This
+## The "Why" (Motivation)
 
-I got tired of QR generators that:
+Let's be honest: **Most "free" QR generators are a trap.**
 
-- Force you to **create an account**
-- Make you **pay** for basic features
-- **Expire** your links after a few days
-- Lock **customization** behind subscriptions
+I got tired of tools that:
+* Force you to sign up just to download your file.
+* Lock basic customization (colors, logos) behind a paywall.
+* Kill your links after a "trial period" ends.
+* Give you low-quality, blurry JPEGs.
 
-So I built my own.
+**OpenQR is my answer to that frustration.**
+It is built on a simple philosophy: **Code should be useful, not predatory.**
 
-**OpenQR is simple:**
-- No login.
-- No paywalls.
-- No link expiration.
-- Just generate and download.
+* No Login required.
+* No Subscriptions.
+* No Link Expiration (What you generate is yours forever).
+* Vector Support (SVG for pros).
 
-## Use It
+## How to Use
 
-1. Go to logic: **[App URL]**
-2. Paste your URL.
-3. Customize it (Colors, Shapes, Logo).
-4. Download it (SVG or High-Res PNG).
+1.  **Insert Coin:** Head over to the [Live App](https://open-qr-mocha.vercel.app/).
+2.  **Input Data:** Paste your URL, text, or Wi-Fi credentials.
+3.  **Customize Skin:** Tweak the dots, corner squares, and colors. Add a logo if you want.
+4.  **Claim Loot:** Download your QR in **SVG** (for design work) or **High-Res PNG**.
 
-**That’s it.**
+## Tech Stack & Architecture
 
-## About the Project
+This project is a lightweight, single-page application built for speed and aesthetics.
 
-This is a hobby project built with **Next.js** and deployed on **Vercel**.
-It focuses on:
+* **Core:** [Next.js](https://nextjs.org/) (App Router)
+* **UI/UX:** React + CSS Modules (Retro CRT & Neon effects)
+* **Engine:** `qr-code-styling`
+* **Deployment:** Vercel
 
-- Clean generation
-- Retro gaming aesthetic (CRT, Neon, Pixel fonts)
-- Lightweight experience
-- No unnecessary friction
+## Design Philosophy
+
+The UI is a tribute to the golden age of gaming. I wanted an interface that feels like a console menu but functions like a professional tool.
+* **CRT Scanlines & Pixel Fonts.**
+* **High Contrast Neon Palette.**
+* **Frictionless Experience:** No unnecessary clicks.
 
 ## Contributing
 
-If you want to improve it, feel free to open a PR.
+Got an idea to make it better? **Pull Requests are welcome!**
 
-**Ideas are welcome:**
-- UI refinements
-- New visual modes
-- Performance improvements
-- Better QR customization
+I'm currently looking for help with:
+* Adding new "Retro Themes" (GameBoy style, Cyberpunk, etc.).
+* Performance optimizations for the rendering engine.
+* Mobile UI refinements.
 
-Please keep attribution if you fork or adapt the project.
+*If you fork this project, please keep the attribution alive!*
 
-## Tech Stack
+---
 
-- **Next.js** (App Router)
-- **React**
-- **Vercel**
-- **qr-code-styling** library
+### Credits
 
-## Credits
-
-Built by **José Manuel Cortes Cerón** with <3
+Design & Code by **José Manuel Cortes Cerón**.
+*Built with ❤️ and a lot of caffeine.*

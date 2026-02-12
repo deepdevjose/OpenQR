@@ -1,0 +1,213 @@
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 2px solid var(--border-color);
+    background: rgba(11, 11, 15, 0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .brand {
+        align-items: center;
+    }
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+}
+
+.brandName {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    color: var(--foreground);
+    text-decoration: none;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.brandTagline {
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.betaBadge {
+    color: var(--accent);
+    font-size: 0.6rem;
+    vertical-align: super;
+    margin-left: 5px;
+    animation: blink 2s infinite;
+}
+
+.segmentedControl {
+    display: flex;
+    background: #000;
+    border: 2px solid var(--border-color);
+    padding: 2px;
+}
+
+.segmentBtn {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.segmentBtn:hover {
+    color: var(--foreground);
+}
+
+.activeSegment {
+    background: var(--border-color);
+    color: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 94, 0, 0.2);
+    border: 1px solid var(--accent);
+}
+
+/* Footer Styles */
+.footer {
+    border-top: 2px solid var(--border-color);
+    padding: 1rem 2rem;
+    background: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    color: #666;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.footerLinks {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footerLink {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footerLink:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.metadata {
+    display: flex;
+    gap: 1rem;
+}
+
+.metadata span::after {
+    content: " |";
+    color: #444;
+    margin-left: 1rem;
+}
+
+.metadata span:last-child::after {
+    content: "";
+}
+
+/* Retro Custom Control Styles (Select/Color) */
+.customControl {
+    position: relative;
+    font-family: var(--font-terminal);
+    width: 100%;
+}
+
+.controlTrigger {
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #000;
+    color: var(--foreground);
+}
+
+.controlTrigger:hover {
+    border-color: #666;
+}
+
+.controlValue {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controlDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #000;
+    border: 2px solid var(--border-color);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+.dropdownItem {
+    padding: 10px;
+    cursor: pointer;
+    color: #888;
+    border-bottom: 1px solid #222;
+}
+
+.dropdownItem:hover,
+.dropdownItem.selected {
+    background: #111;
+    color: var(--accent);
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
+}
+
+/* Color Swatches Grid */
+.colorGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    padding: 10px;
+}
+
+.colorSwatch {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #333;
+    cursor: pointer;
+}
+
+.colorSwatch:hover,
+.colorSwatch.selected {
+    border-color: #fff;
+    transform: scale(1.1);
+}

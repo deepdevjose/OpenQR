@@ -4,20 +4,14 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem 4rem 2rem;
+  /* Adjusted for fixed navbar/footer */
   gap: 3rem;
   max-width: 1440px;
   margin: 0 auto;
 }
 
-.header {
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 2rem;
-}
+/* Header removed - replaced by Navbar component */
 
 .title {
   font-family: var(--font-header);

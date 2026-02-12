@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import styles from './page.module.css';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import RetroSelect from './components/RetroSelect';
+import RetroColorPicker from './components/RetroColorPicker';
 
 // Placeholder for the QR Code Component
 const QRPreview = ({ url, options }) => {
@@ -98,28 +102,18 @@ export default function Home() {
 
   const [mode, setMode] = useState('static'); // 'static' or 'dynamic'
 
+  const shapeOptions = [
+    { value: 'square', label: 'Square (Classic)' },
+    { value: 'dots', label: 'Dots (Modern)' },
+    { value: 'rounded', label: 'Rounded' },
+    { value: 'extra-rounded', label: 'Extra Rounded' },
+    { value: 'classy', label: 'Classy' },
+    { value: 'classy-rounded', label: 'Classy Rounded' }
+  ];
+
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <div className={styles.brand}>
-          <h1 className={styles.title}>OpenQR <span className={styles.beta}>BETA</span></h1>
-          <p>Free, Private, Infinite.</p>
-        </div>
-        <div className={styles.modeToggle}>
-          <button
-            className={`${styles.tabBtn} ${mode === 'static' ? styles.activeTab : ''}`}
-            onClick={() => setMode('static')}
-          >
-            STATIC
-          </button>
-          <button
-            className={`${styles.tabBtn} ${mode === 'dynamic' ? styles.activeTab : ''}`}
-            onClick={() => setMode('dynamic')}
-          >
-            DYNAMIC
-          </button>
-        </div>
-      </header>
+      <Navbar mode={mode} setMode={setMode} />
 
       <div className={styles.content}>
         {mode === 'static' ? (
@@ -142,44 +136,30 @@ export default function Home() {
 
                 <div className={styles.controlGroup}>
                   <label>Dots Color</label>
-                  <div className={styles.row}>
-                    <input
-                      type="color"
-                      value={options.dotsColor}
-                      onChange={(e) => setOptions({ ...options, dotsColor: e.target.value })}
-                      className={styles.colorInput}
-                    />
-                    <span className={styles.colorValue}>{options.dotsColor}</span>
-                  </div>
+                  <RetroColorPicker
+                    value={options.dotsColor}
+                    onChange={(color) => setOptions({ ...options, dotsColor: color })}
+                    label="DOTS_COLOR"
+                  />
                 </div>
 
                 <div className={styles.controlGroup}>
                   <label>Background</label>
-                  <div className={styles.row}>
-                    <input
-                      type="color"
-                      value={options.bgColor}
-                      onChange={(e) => setOptions({ ...options, bgColor: e.target.value })}
-                      className={styles.colorInput}
-                    />
-                    <span className={styles.colorValue}>{options.bgColor}</span>
-                  </div>
+                  <RetroColorPicker
+                    value={options.bgColor}
+                    onChange={(color) => setOptions({ ...options, bgColor: color })}
+                    label="BACKGROUND"
+                  />
                 </div>
 
                 <div className={styles.controlGroup}>
                   <label>Module Shape</label>
-                  <select
-                    className="pixel-input"
+                  <RetroSelect
                     value={options.dotsType}
-                    onChange={(e) => setOptions({ ...options, dotsType: e.target.value })}
-                  >
-                    <option value="square">Square (Classic)</option>
-                    <option value="dots">Dots (Modern)</option>
-                    <option value="rounded">Rounded</option>
-                    <option value="extra-rounded">Extra Rounded</option>
-                    <option value="classy">Classy</option>
-                    <option value="classy-rounded">Classy Rounded</option>
-                  </select>
+                    options={shapeOptions}
+                    onChange={(val) => setOptions({ ...options, dotsType: val })}
+                    label="SHAPE"
+                  />
                 </div>
               </section>
 
@@ -250,6 +230,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <Footer />
     </main>
   );
 }
