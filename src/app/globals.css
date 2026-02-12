@@ -32,14 +32,28 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-pixel);
-  font-size: 18px;
+  font-size: 10px;
+  /* Reduced to 10px (Hyper-Res Mode) */
   line-height: 1.4;
   margin: 0;
   padding: 0;
   background-image:
     linear-gradient(rgba(50, 50, 50, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(50, 50, 50, 0.1) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 20px 20px;
+  /* Scaled down to 20px */
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 * {

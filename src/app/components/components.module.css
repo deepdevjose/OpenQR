@@ -24,7 +24,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 2rem;
+    padding: 0.8rem 2rem;
+    /* Reduced padding for thinner look */
     border-bottom: 2px solid var(--border-color);
     background: rgba(5, 5, 8, 0.98);
     /* Deeper background */
@@ -57,7 +58,8 @@
 
 .brandName {
     font-family: var(--font-header);
-    font-size: 1.5rem;
+    font-size: 1rem;
+    /* Reduced from 1.1rem */
     color: var(--foreground);
     text-decoration: none;
     text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
@@ -65,17 +67,36 @@
 
 .brandTagline {
     font-family: var(--font-terminal);
-    font-size: 0.7rem;
+    font-size: 0.5rem;
+    /* Reduced from 0.6rem */
     color: #888;
     letter-spacing: 1px;
 }
 
 .betaBadge {
     color: var(--accent);
-    font-size: 0.6rem;
-    vertical-align: super;
+    font-family: var(--font-terminal);
+    font-size: 0.4rem;
+    vertical-align: top;
     margin-left: 5px;
-    animation: blink 2s infinite;
+    letter-spacing: 1px;
+    animation: blinkBadge 1.5s infinite;
+    /* Faster, local animation */
+    opacity: 0.8;
+}
+
+@keyframes blinkBadge {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+
+    /* Don't go fully invisible, just dim */
 }
 
 .segmentedControl {
@@ -90,9 +111,11 @@
     border: none;
     color: #666;
     font-family: var(--font-terminal);
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    /* Reduced from 0.7rem */
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 4px 10px;
+    /* Reduced padding */
     text-transform: uppercase;
     transition: all 0.2s;
 }
@@ -110,7 +133,8 @@
 
 .modeLabel {
     font-family: var(--font-terminal);
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    /* Reduced from 0.7rem */
     color: #666;
     margin-right: 15px;
     letter-spacing: 1px;
@@ -134,6 +158,10 @@
     left: 0;
     right: 0;
     z-index: 100;
+}
+
+.footerLeft {
+    color: #666;
 }
 
 .footerLinks {
@@ -165,6 +193,18 @@
 
 .metadata span:last-child::after {
     content: "";
+}
+
+.bugLink {
+    color: var(--accent);
+    text-decoration: none;
+    animation: blinkBadge 1s infinite;
+    font-weight: bold;
+}
+
+.bugLink:hover {
+    text-decoration: underline;
+    color: var(--accent-secondary);
 }
 
 /* Retro Custom Control Styles (Select/Color) */
@@ -271,4 +311,122 @@
     transform: translateY(2px);
     /* Press-in effect */
     opacity: 0.8;
+}
+
+/* Export Config Panel */
+.exportConfig {
+    border-top: 1px solid #333;
+    margin-top: 20px;
+    padding-top: 15px;
+    width: 100%;
+}
+
+.configHeader {
+    font-family: var(--font-terminal);
+    color: #666;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.configGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.configItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.configLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.6rem;
+    color: #555;
+    text-transform: uppercase;
+}
+
+/* Resolution Controls */
+.resControl {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.resInput {
+    background: #000;
+    border: 1px solid #333;
+    color: var(--accent);
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    width: 60px;
+    outline: none;
+}
+
+.resInput:focus {
+    border-color: var(--accent);
+}
+
+.resPresets {
+    display: flex;
+    gap: 2px;
+}
+
+.resPresetBtn {
+    background: #111;
+    border: 1px solid #333;
+    color: #666;
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.resPresetBtn:hover {
+    color: #fff;
+    border-color: #555;
+}
+
+.activePreset {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.staticValue {
+    font-family: var(--font-terminal);
+    color: var(--foreground);
+    font-size: 0.8rem;
+    padding: 2px 0;
+}
+
+.eccSelector {
+    display: flex;
+    gap: 2px;
+}
+
+.eccBtn {
+    background: #111;
+    border: 1px solid #333;
+    color: #666;
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.eccBtn:hover {
+    color: #fff;
+    border-color: #555;
+}
+
+.activeEcc {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: bold;
 }

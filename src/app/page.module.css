@@ -4,10 +4,11 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 6rem 2rem 4rem 2rem;
-  /* Adjusted for fixed navbar/footer */
+  padding: 10rem 2rem 4rem 2rem;
+  /* Increased top padding significantly */
   gap: 3rem;
-  max-width: 1440px;
+  max-width: 1200px;
+  /* Constrained width for high-res look */
   margin: 0 auto;
 }
 

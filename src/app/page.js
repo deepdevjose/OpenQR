@@ -8,9 +8,10 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import RetroSelect from './components/RetroSelect';
 import RetroColorPicker from './components/RetroColorPicker';
+import ExportConfig from './components/ExportConfig';
 
 // Placeholder for the QR Code Component
-const QRPreview = ({ url, options }) => {
+const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
   const ref = useRef(null);
   const [qrCode, setQrCode] = useState(null);
 
@@ -51,12 +52,13 @@ const QRPreview = ({ url, options }) => {
         },
         backgroundOptions: {
           color: options.bgColor,
+        },
+        qrOptions: {
+          errorCorrectionLevel: ecc
         }
       });
     }
-  }, [url, options, qrCode]);
-
-  // ...
+  }, [url, options, qrCode, ecc]);
 
   const onDownloadClick = async (extension) => {
     if (qrCode) {
@@ -68,13 +70,56 @@ const QRPreview = ({ url, options }) => {
         colors: ['#FF5E00', '#00FF41', '#ffffff']
       });
 
+      // Ensure all current options are applied before download
+      const currentConfig = {
+        data: url,
+        image: options.image,
+        dotsOptions: {
+          color: options.dotsColor,
+          type: options.dotsType
+        },
+        cornersSquareOptions: {
+          type: options.dotsType === 'dot' ? 'dot' : 'square', // Match corners if dots
+          color: options.dotsColor
+        },
+        cornersDotOptions: {
+          type: options.dotsType === 'dot' ? 'dot' : 'square',
+          color: options.dotsColor
+        },
+        backgroundOptions: {
+          color: transparentBg ? 'transparent' : options.bgColor,
+        },
+        imageOptions: {
+          crossOrigin: 'anonymous',
+          margin: 10,
+          imageSize: 0.4, // Responsive size
+          hideBackgroundDots: true // Ensure dots don't bleed through
+        },
+        qrOptions: {
+          errorCorrectionLevel: ecc
+        }
+      };
+
       if (extension === 'png') {
-        // High Resolution Download
-        qrCode.update({ width: 2000, height: 2000 });
+        // Use selected resolution
+        const exportSize = parseInt(resolution) || 2000;
+
+        // Force update with full config
+        qrCode.update({
+          ...currentConfig,
+          width: exportSize,
+          height: exportSize
+        });
+
+        // Brief delay to ensure render
+        await new Promise(resolve => setTimeout(resolve, 50));
+
         await qrCode.download({ extension: extension, name: 'openqr-code' });
         // Revert to preview size
         qrCode.update({ width: 300, height: 300 });
       } else {
+        qrCode.update(currentConfig);
+        await new Promise(resolve => setTimeout(resolve, 50));
         qrCode.download({ extension: extension, name: 'openqr-code' });
       }
     }
@@ -99,6 +144,11 @@ export default function Home() {
     dotsType: 'square',
     image: null
   });
+
+  // Export Config State
+  const [resolution, setResolution] = useState(2000); // 1000 or 2000
+  const [ecc, setEcc] = useState('H'); // L, M, Q, H
+  const [transparentBg, setTransparentBg] = useState(false);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -208,15 +258,25 @@ export default function Home() {
               <div className={styles.previewContainer}>
                 <div className={styles.previewLabel}>&gt; PREVIEW OUTPUT</div>
                 <div className={styles.qrFrame}>
-                  <QRPreview url={url} options={options} />
+                  <QRPreview
+                    url={url}
+                    options={options}
+                    ecc={ecc}
+                    resolution={resolution}
+                    transparentBg={transparentBg}
+                  />
                 </div>
-                <div className={styles.qrMetadata}>
-                  <span>RES: 2000x2000px (Export)</span>
-                  <span>|</span>
-                  <span>ECC: HIGH</span>
-                  <span>|</span>
-                  <span>MODE: STATIC</span>
-                </div>
+
+                {/* Interactive Export Config */}
+                <ExportConfig
+                  resolution={resolution}
+                  setResolution={setResolution}
+                  ecc={ecc}
+                  setEcc={setEcc}
+                  mode={mode}
+                  transparentBg={transparentBg}
+                  setTransparentBg={setTransparentBg}
+                />
               </div>
             </div>
           </>
