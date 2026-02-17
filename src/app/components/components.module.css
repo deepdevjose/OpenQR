@@ -786,3 +786,120 @@
     color: #fff !important;
     /* White text on dark burnt orange */
 }
+
+/* QR Type Selector */
+.typeSelector {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.typeSelectorLabel {
+    display: block;
+    margin-bottom: 1rem;
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #aaa;
+    font-weight: 600;
+}
+
+.typeSelectorLabel::before {
+    content: "> ";
+    color: var(--accent);
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+[data-theme='light'] .typeSelectorLabel {
+    color: #555;
+}
+
+.typeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .typeGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .typeGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.typeCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.25rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 120px;
+}
+
+.typeCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.typeCardActive {
+    background: rgba(255, 94, 0, 0.1);
+    border-color: var(--accent);
+    border-width: 2px;
+}
+
+[data-theme='light'] .typeCard {
+    background: #ffffff;
+    border-color: #E5E7EB;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme='light'] .typeCard:hover {
+    background: #fafafa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .typeCardActive {
+    background: rgba(234, 88, 12, 0.08);
+    border-color: var(--accent);
+}
+
+.typeIcon {
+    color: var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.typeCard:hover .typeIcon {
+    transform: scale(1.1);
+}
+
+.typeLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--foreground);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.typeDescription {
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    color: #888;
+    text-align: center;
+}
+
+[data-theme='light'] .typeDescription {
+    color: #999;
+}

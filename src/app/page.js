@@ -12,6 +12,10 @@ import ExportConfig from './components/ExportConfig';
 import Scanner from './components/Scanner';
 import URLInput from './components/URLInput';
 import PreviewControls from './components/PreviewControls';
+import QRTypeSelector from './components/QRTypeSelector';
+import UniversalInput from './components/UniversalInput';
+import { EmailForm, PhoneForm, SMSForm, LocationForm, VCardForm, WiFiForm } from './components/QRForms';
+import { generateQRData, getDefaultDataForType } from './utils/qrHelpers';
 
 // Placeholder for the QR Code Component
 const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
@@ -214,7 +218,14 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
 };
 
 export default function Home() {
-  const [url, setUrl] = useState('https://example.com');
+  // QR Type State
+  const [qrType, setQrType] = useState('url');
+  const [qrData, setQrData] = useState(getDefaultDataForType('url'));
+  const [showManualSelector, setShowManualSelector] = useState(false);
+  
+  // Generate actual QR data based on type
+  const url = generateQRData(qrType, qrData);
+  
   const [options, setOptions] = useState({
     dotsColor: '#000000',
     bgColor: '#ffffff',
@@ -231,6 +242,19 @@ export default function Home() {
   const [roundedModules, setRoundedModules] = useState(false);
   const [quietZone, setQuietZone] = useState(false);
   const [invertColors, setInvertColors] = useState(false);
+
+  // Handle QR type change
+  const handleTypeChange = (newType) => {
+    setQrType(newType);
+    setQrData(getDefaultDataForType(newType));
+  };
+
+  const handleAutoDetect = (detection) => {
+    if (detection) {
+      setQrType(detection.type);
+      setQrData(detection.data);
+    }
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -285,9 +309,25 @@ export default function Home() {
   const normalizeColor = (c) => c ? c.toLowerCase().trim() : '';
 
   const handleScanResult = (resultText) => {
-    setUrl(resultText);
+    // Try to detect the type and populate data
+    if (resultText.startsWith('WIFI:')) {
+      setQrType('wifi');
+      // Parse WiFi format would go here
+    } else if (resultText.startsWith('mailto:')) {
+      setQrType('email');
+    } else if (resultText.startsWith('tel:')) {
+      setQrType('phone');
+    } else if (resultText.startsWith('sms:')) {
+      setQrType('sms');
+    } else if (resultText.startsWith('geo:')) {
+      setQrType('location');
+    } else if (resultText.includes('BEGIN:VCARD')) {
+      setQrType('vcard');
+    } else {
+      setQrType('url');
+      setQrData({ url: resultText });
+    }
     setActiveTab('generate');
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -311,18 +351,56 @@ export default function Home() {
           {mode === 'static' ? (
             <>
               <div className={styles.controls}>
-                {/* URL Input */}
+                {/* Universal Input with Auto-Detection */}
                 <section className={styles.section}>
-                  <label className={styles.label}>1. Destination URL</label>
-                  <URLInput
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
+                  <label className={styles.label}>1. Paste Anything</label>
+                  <UniversalInput
+                    onDetect={handleAutoDetect}
+                    onToggleManual={() => setShowManualSelector(!showManualSelector)}
+                    showManual={showManualSelector}
                   />
+                </section>
+
+                {/* Optional Manual Type Selector */}
+                {showManualSelector && (
+                  <section className={styles.section}>
+                    <label className={styles.label}>Override Type</label>
+                    <QRTypeSelector selectedType={qrType} onChange={handleTypeChange} />
+                  </section>
+                )}
+
+                {/* Dynamic Form Based on Type - Only show advanced fields */}
+                <section className={styles.section}>
+                  <label className={styles.label}>2. Details (Optional)</label>
+                  {qrType === 'url' && (
+                    <URLInput
+                      value={qrData.url || ''}
+                      onChange={(e) => setQrData({ url: e.target.value })}
+                    />
+                  )}
+                  {qrType === 'email' && (
+                    <EmailForm data={qrData} onChange={setQrData} />
+                  )}
+                  {qrType === 'phone' && (
+                    <PhoneForm data={qrData} onChange={setQrData} />
+                  )}
+                  {qrType === 'sms' && (
+                    <SMSForm data={qrData} onChange={setQrData} />
+                  )}
+                  {qrType === 'location' && (
+                    <LocationForm data={qrData} onChange={setQrData} />
+                  )}
+                  {qrType === 'vcard' && (
+                    <VCardForm data={qrData} onChange={setQrData} />
+                  )}
+                  {qrType === 'wifi' && (
+                    <WiFiForm data={qrData} onChange={setQrData} />
+                  )}
                 </section>
 
                 {/* Style Config */}
                 <section className={styles.section}>
-                  <label className={styles.label}>2. Appearance</label>
+                  <label className={styles.label}>3. Appearance</label>
 
                   <div className={styles.controlGroup}>
                     <label>Modules</label>
@@ -367,7 +445,7 @@ export default function Home() {
 
                 {/* Logo Upload */}
                 <section className={styles.section}>
-                  <label className={styles.label}>3. Logo (Optional)</label>
+                  <label className={styles.label}>4. Logo (Optional)</label>
                   <div className={styles.fileUpload}>
                     <input
                       type="file"

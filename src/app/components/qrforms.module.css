@@ -1,0 +1,72 @@
+/* QR Forms Styles */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formField label {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+[data-theme='light'] .formField label {
+    color: #666;
+}
+
+.textarea {
+    resize: vertical;
+    font-family: var(--font-terminal);
+    min-height: 100px;
+}
+
+.select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+}
+
+.hint {
+    font-family: var(--font-terminal);
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: -0.5rem;
+    font-style: italic;
+}
+
+[data-theme='light'] .hint {
+    color: #999;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: #bbb;
+    text-transform: none;
+}
+
+.checkboxLabel input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+[data-theme='light'] .checkboxLabel {
+    color: #666;
+}

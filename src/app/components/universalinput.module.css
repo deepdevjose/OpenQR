@@ -1,0 +1,164 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  background: var(--panel-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(0, 255, 65, 0.1);
+}
+
+.input::placeholder {
+  color: var(--muted-text);
+  opacity: 0.6;
+}
+
+/* Detection Bar */
+.detectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--accent-color);
+  color: #ffffff;
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+  border: 2px solid var(--accent-color);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.badge svg {
+  flex-shrink: 0;
+}
+
+/* Confidence indicators */
+.confidence-high {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.confidence-medium {
+  background: #ffaa00;
+  border-color: #ffaa00;
+}
+
+.confidence-low {
+  background: #ff4444;
+  border-color: #ff4444;
+}
+
+.warningIcon {
+  opacity: 0.8;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.changeBtn {
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.9rem !important;
+  white-space: nowrap;
+}
+
+/* Suggestion box */
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  background: rgba(255, 170, 0, 0.1);
+  border: 2px solid #ffaa00;
+  color: var(--text-color);
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+}
+
+.suggestion svg {
+  color: #ffaa00;
+  flex-shrink: 0;
+}
+
+/* Low confidence warning */
+.lowConfidence {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  background: rgba(255, 68, 68, 0.1);
+  border: 2px solid #ff4444;
+  color: var(--text-color);
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+}
+
+.lowConfidence svg {
+  color: #ff4444;
+  flex-shrink: 0;
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+  .input {
+    background: #ffffff;
+  }
+
+  .badge {
+    color: #1a1a1a;
+  }
+
+  .suggestion {
+    background: rgba(255, 170, 0, 0.15);
+  }
+
+  .lowConfidence {
+    background: rgba(255, 68, 68, 0.15);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .detectionBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .badge {
+    justify-content: center;
+  }
+
+  .changeBtn {
+    width: 100%;
+    text-align: center;
+  }
+}
