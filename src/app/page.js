@@ -18,7 +18,7 @@ import { EmailForm, PhoneForm, SMSForm, LocationForm, VCardForm, WiFiForm } from
 import { generateQRData, getDefaultDataForType } from './utils/qrHelpers';
 
 // Placeholder for the QR Code Component
-const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
+const QRPreview = ({ url, options, resolution, ecc, transparentBg, logoSize }) => {
   const ref = useRef(null);
   const [qrCode, setQrCode] = useState(null);
   const [isValidUrl, setIsValidUrl] = useState(true);
@@ -49,7 +49,8 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
       },
       imageOptions: {
         crossOrigin: 'anonymous',
-        margin: 10
+        margin: 10,
+        imageSize: logoSize || 0.3
       }
     });
     setQrCode(qr);
@@ -83,12 +84,17 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
         backgroundOptions: {
           color: transparentBg ? 'rgba(0,0,0,0)' : options.bgColor,
         },
+        imageOptions: {
+          crossOrigin: 'anonymous',
+          margin: 10,
+          imageSize: logoSize || 0.3
+        },
         qrOptions: {
           errorCorrectionLevel: ecc
         }
       });
     }
-  }, [url, options, qrCode, ecc, transparentBg]);
+  }, [url, options, qrCode, ecc, transparentBg, logoSize]);
 
   // Calculate contrast ratio for badge
   const getContrastRatio = () => {
@@ -233,6 +239,10 @@ export default function Home() {
     image: null
   });
 
+  // Logo Control State
+  const [logoSize, setLogoSize] = useState(0.3); // 0.1 to 0.5 (10% to 50%)
+  const [eccSuggested, setEccSuggested] = useState(false);
+
   // Export Config State
   const [resolution, setResolution] = useState(2000); // 1000 or 2000
   const [ecc, setEcc] = useState('H'); // L, M, Q, H
@@ -262,6 +272,13 @@ export default function Home() {
       const reader = new FileReader();
       reader.onload = () => {
         setOptions(prev => ({ ...prev, image: reader.result }));
+        // Auto-sugerir ECC = H cuando se sube un logo
+        if (ecc !== 'H') {
+          setEcc('H');
+          setEccSuggested(true);
+          // Ocultar mensaje después de 3 segundos
+          setTimeout(() => setEccSuggested(false), 3000);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -467,9 +484,52 @@ export default function Home() {
                       </button>
                     )}
                   </div>
-                  <p style={{ fontSize: '0.8rem', marginTop: '10px', color: '#666' }}>
-                    *Auto-centers with High Error Correction
-                  </p>
+
+                  {/* Logo Size Control */}
+                  {options.image && (
+                    <div className={styles.logoControl}>
+                      <div className={styles.controlGroup}>
+                        <label>
+                          Logo Size: {Math.round(logoSize * 100)}%
+                          {logoSize > 0.35 && (
+                            <span className={styles.warningBadge}>⚠ May affect scanning</span>
+                          )}
+                        </label>
+                        <input
+                          type="range"
+                          min="0.1"
+                          max="0.5"
+                          step="0.05"
+                          value={logoSize}
+                          onChange={(e) => setLogoSize(parseFloat(e.target.value))}
+                          className={styles.logoSlider}
+                        />
+                        <div className={styles.sliderLabels}>
+                          <span>10% (Safe)</span>
+                          <span className={styles.recommended}>30% ✓</span>
+                          <span>50% (Risky)</span>
+                        </div>
+                      </div>
+
+                      {logoSize > 0.35 && (
+                        <div className={styles.logoWarning}>
+                          ⚠ Logos larger than 35% may reduce QR scannability. Recommended: 25-30%
+                        </div>
+                      )}
+
+                      {eccSuggested && (
+                        <div className={styles.eccSuggestion}>
+                          ✓ Error Correction set to HIGH for optimal logo support
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!options.image && (
+                    <p style={{ fontSize: '0.8rem', marginTop: '10px', color: '#666' }}>
+                      *Auto-centers with High Error Correction
+                    </p>
+                  )}
                 </section>
               </div>
 
@@ -483,6 +543,7 @@ export default function Home() {
                       ecc={ecc}
                       resolution={resolution}
                       transparentBg={transparentBg}
+                      logoSize={logoSize}
                     />
                     <div className={styles.qrMetadata}>
                       <span>No Data Stored</span>
