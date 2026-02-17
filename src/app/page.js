@@ -10,11 +10,24 @@ import RetroSelect from './components/RetroSelect';
 import RetroColorPicker from './components/RetroColorPicker';
 import ExportConfig from './components/ExportConfig';
 import Scanner from './components/Scanner';
+import URLInput from './components/URLInput';
+import PreviewControls from './components/PreviewControls';
 
 // Placeholder for the QR Code Component
 const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
   const ref = useRef(null);
   const [qrCode, setQrCode] = useState(null);
+  const [isValidUrl, setIsValidUrl] = useState(true);
+
+  useEffect(() => {
+    // Validate URL
+    try {
+      new URL(url);
+      setIsValidUrl(true);
+    } catch {
+      setIsValidUrl(false);
+    }
+  }, [url]);
 
   useEffect(() => {
     const qr = new QRCodeStyling({
@@ -44,11 +57,16 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
 
   useEffect(() => {
     if (qrCode) {
-      // Trigger update animation
+      // Trigger update animation with fade and scale
       if (ref.current) {
-        ref.current.classList.remove(styles.updating);
-        void ref.current.offsetWidth; // Trigger reflow
-        ref.current.classList.add(styles.updating);
+        ref.current.style.transition = 'opacity 120ms ease, transform 120ms ease';
+        ref.current.style.opacity = '0.7';
+        ref.current.style.transform = 'scale(0.99)';
+        
+        setTimeout(() => {
+          ref.current.style.opacity = '1';
+          ref.current.style.transform = 'scale(1)';
+        }, 120);
       }
 
       qrCode.update({
@@ -67,6 +85,33 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
       });
     }
   }, [url, options, qrCode, ecc, transparentBg]);
+
+  // Calculate contrast ratio for badge
+  const getContrastRatio = () => {
+    const getLuminance = (hex) => {
+      const rgb = parseInt(hex.replace('#', ''), 16);
+      const r = ((rgb >> 16) & 0xff) / 255;
+      const g = ((rgb >> 8) & 0xff) / 255;
+      const b = (rgb & 0xff) / 255;
+      const [rL, gL, bL] = [r, g, b].map(c => 
+        c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+      );
+      return 0.2126 * rL + 0.7152 * gL + 0.0722 * bL;
+    };
+    
+    try {
+      const fgLum = getLuminance(options.dotsColor || '#000000');
+      const bgLum = getLuminance(options.bgColor || '#ffffff');
+      const lighter = Math.max(fgLum, bgLum);
+      const darker = Math.min(fgLum, bgLum);
+      return ((lighter + 0.05) / (darker + 0.05)).toFixed(1);
+    } catch {
+      return '7.0';
+    }
+  };
+
+  const contrastRatio = getContrastRatio();
+  const isHighContrast = parseFloat(contrastRatio) >= 4.5;
 
   const onDownloadClick = async (extension) => {
     if (qrCode) {
@@ -132,9 +177,37 @@ const QRPreview = ({ url, options, resolution, ecc, transparentBg }) => {
   return (
     <>
       <div className={styles.qrWrapper} ref={ref} />
-      <div className={styles.downloadButtons}>
-        <button className="pixel-btn" onClick={() => onDownloadClick('svg')}>SVG</button>
-        <button className="pixel-btn" onClick={() => onDownloadClick('png')}>PNG (High Res)</button>
+      
+      {/* Contrast Badge */}
+      <div className={styles.contrastBadge} data-high={isHighContrast}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 6v6l4 2"></path>
+        </svg>
+        {isHighContrast ? 'High Contrast' : `Contrast ${contrastRatio}:1`}
+        {isHighContrast && <span className={styles.checkmark}>✓</span>}
+      </div>
+      
+      {/* Main CTA Button */}
+      <button 
+        className={`pixel-btn pixel-btn-accent ${styles.primaryCTA}`}
+        onClick={() => onDownloadClick('png')}
+        disabled={!isValidUrl}
+        title={!isValidUrl ? 'Enter a valid URL first' : 'Download QR code as PNG'}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '10px' }}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download PNG
+      </button>
+
+      {/* Secondary Actions */}
+      <div className={styles.secondaryActions}>
+        <button className={`pixel-btn ${styles.secondaryBtn}`} onClick={() => onDownloadClick('svg')}>
+          Download SVG
+        </button>
       </div>
     </>
   );
@@ -153,6 +226,11 @@ export default function Home() {
   const [resolution, setResolution] = useState(2000); // 1000 or 2000
   const [ecc, setEcc] = useState('H'); // L, M, Q, H
   const [transparentBg, setTransparentBg] = useState(false);
+
+  // Preview Controls State
+  const [roundedModules, setRoundedModules] = useState(false);
+  const [quietZone, setQuietZone] = useState(false);
+  const [invertColors, setInvertColors] = useState(false);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -236,20 +314,18 @@ export default function Home() {
                 {/* URL Input */}
                 <section className={styles.section}>
                   <label className={styles.label}>1. Destination URL</label>
-                  <input
-                    className="pixel-input"
+                  <URLInput
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://your-website.com"
                   />
                 </section>
 
                 {/* Style Config */}
                 <section className={styles.section}>
-                  <label className={styles.label}>2. Visual DNA</label>
+                  <label className={styles.label}>2. Appearance</label>
 
                   <div className={styles.controlGroup}>
-                    <label>Dots Color</label>
+                    <label>Modules</label>
                     <RetroColorPicker
                       value={options.dotsColor}
                       onChange={(color) => {
@@ -259,7 +335,7 @@ export default function Home() {
                         }
                         setOptions({ ...options, dotsColor: color });
                       }}
-                      label="DOTS_COLOR"
+                      label="MODULES"
                     />
                   </div>
 
@@ -279,7 +355,7 @@ export default function Home() {
                   </div>
 
                   <div className={styles.controlGroup}>
-                    <label>Module Shape</label>
+                    <label>Shape</label>
                     <RetroSelect
                       value={options.dotsType}
                       options={shapeOptions}
@@ -291,7 +367,7 @@ export default function Home() {
 
                 {/* Logo Upload */}
                 <section className={styles.section}>
-                  <label className={styles.label}>3. Organization Logo</label>
+                  <label className={styles.label}>3. Logo (Optional)</label>
                   <div className={styles.fileUpload}>
                     <input
                       type="file"
@@ -335,6 +411,16 @@ export default function Home() {
                       <span>Client-Side</span>
                     </div>
                   </div>
+
+                  {/* Inline Preview Controls */}
+                  <PreviewControls
+                    roundedModules={roundedModules}
+                    setRoundedModules={setRoundedModules}
+                    quietZone={quietZone}
+                    setQuietZone={setQuietZone}
+                    invertColors={invertColors}
+                    setInvertColors={setInvertColors}
+                  />
 
                   {/* Interactive Export Config */}
                   <ExportConfig

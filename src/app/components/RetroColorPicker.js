@@ -17,6 +17,7 @@ const PRESET_COLORS = [
 
 export default function RetroColorPicker({ value, onChange, label }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [dropdownStyle, setDropdownStyle] = useState({});
     const ref = useRef(null);
 
     useEffect(() => {
@@ -29,6 +30,30 @@ export default function RetroColorPicker({ value, onChange, label }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const updatePosition = () => {
+            if (isOpen && ref.current) {
+                const rect = ref.current.getBoundingClientRect();
+                setDropdownStyle({
+                    top: `${rect.bottom}px`,
+                    left: `${rect.left}px`,
+                    width: `${rect.width}px`
+                });
+            }
+        };
+
+        updatePosition();
+
+        if (isOpen) {
+            window.addEventListener('scroll', updatePosition, true);
+            window.addEventListener('resize', updatePosition);
+            return () => {
+                window.removeEventListener('scroll', updatePosition, true);
+                window.removeEventListener('resize', updatePosition);
+            };
+        }
+    }, [isOpen]);
+
     return (
         <div className={styles.customControl} ref={ref}>
             <div className={styles.controlTrigger} onClick={() => setIsOpen(!isOpen)}>
@@ -40,7 +65,7 @@ export default function RetroColorPicker({ value, onChange, label }) {
             </div>
 
             {isOpen && (
-                <div className={styles.controlDropdown}>
+                <div className={styles.controlDropdown} style={dropdownStyle}>
                     <div className={styles.colorGrid}>
                         {PRESET_COLORS.map(({ hex, label }) => (
                             <div

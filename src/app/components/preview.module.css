@@ -1,0 +1,168 @@
+.previewControlsCard {
+    width: 100%;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='light'] .previewControlsCard {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.controlsHeader {
+    font-family: var(--font-terminal);
+    font-size: 0.75rem;
+    color: #ddd;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.controlsSubtitle {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+}
+
+[data-theme='light'] .controlsHeader {
+    color: #444;
+    border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .controlsSubtitle {
+    color: #999;
+}
+
+.previewControls {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+}
+
+[data-theme='light'] .previewControls {
+    background: transparent;
+    border: none;
+}
+
+.toggleLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    cursor: pointer;
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: #bbb;
+    transition: all 0.2s ease;
+    user-select: none;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.toggleLabel:last-child {
+    border-bottom: none;
+}
+
+.toggleLabel:hover {
+    color: var(--foreground);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='light'] .toggleLabel {
+    color: #666;
+    border-bottom-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='light'] .toggleLabel:hover {
+    color: #000;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+.checkbox:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+    animation: checkbox-check 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes checkbox-check {
+    0% {
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 0.85rem;
+    font-weight: bold;
+    animation: checkmark-appear 0.2s ease;
+}
+
+@keyframes checkmark-appear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+[data-theme='light'] .checkbox:checked::after {
+    color: #fff;
+}
+
+.checkbox:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.toggleText {
+    letter-spacing: 0.5px;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .previewControls {
+        padding: 0;
+    }
+    
+    .toggleLabel {
+        padding: 0.75rem;
+    }
+}

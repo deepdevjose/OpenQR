@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 
 export default function RetroSelect({ value, options, onChange, label }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [dropdownStyle, setDropdownStyle] = useState({});
     const ref = useRef(null);
 
     useEffect(() => {
@@ -16,6 +17,30 @@ export default function RetroSelect({ value, options, onChange, label }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const updatePosition = () => {
+            if (isOpen && ref.current) {
+                const rect = ref.current.getBoundingClientRect();
+                setDropdownStyle({
+                    top: `${rect.bottom}px`,
+                    left: `${rect.left}px`,
+                    width: `${rect.width}px`
+                });
+            }
+        };
+
+        updatePosition();
+
+        if (isOpen) {
+            window.addEventListener('scroll', updatePosition, true);
+            window.addEventListener('resize', updatePosition);
+            return () => {
+                window.removeEventListener('scroll', updatePosition, true);
+                window.removeEventListener('resize', updatePosition);
+            };
+        }
+    }, [isOpen]);
+
     const selectedLabel = options.find(opt => opt.value === value)?.label || value;
 
     return (
@@ -26,7 +51,7 @@ export default function RetroSelect({ value, options, onChange, label }) {
             </div>
 
             {isOpen && (
-                <div className={styles.controlDropdown}>
+                <div className={styles.controlDropdown} style={dropdownStyle}>
                     {options.map((option) => (
                         <div
                             key={option.value}
