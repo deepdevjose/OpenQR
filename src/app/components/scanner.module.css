@@ -1,10 +1,31 @@
 .scannerContainer {
     width: 100%;
-    max-width: max(480px, 35vw);
+    max-width: 1000px;
     margin: 0 auto;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-family: var(--font-header);
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-family: var(--font-terminal);
+    color: var(--muted-text);
+    font-size: 0.95rem;
 }
 
 .controls {
@@ -23,30 +44,64 @@
 }
 
 .dropZone {
-    border: 2px dashed #444;
-    border-radius: 0;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: rgba(255, 255, 255, 0.02);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    font-family: var(--font-terminal);
-    color: #888;
+    padding: 4rem 2rem;
+    border: 3px dashed var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
 .dropZone:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(255, 94, 0, 0.05);
+    border-color: var(--accent-color);
+    background: rgba(0, 255, 65, 0.05);
+    transform: translateY(-2px);
+}
+
+.uploadIcon {
+    color: var(--accent-color);
+    opacity: 0.7;
+}
+
+.dropZone h3 {
+    font-family: var(--font-terminal);
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.dropZone p {
+    color: var(--muted-text);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.formats {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+[data-theme='light'] .dropZone {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme='light'] .dropZone:hover {
+    background: rgba(22, 163, 74, 0.05);
 }
 
 .activeScanner {
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
     position: relative;
     border: 2px solid var(--accent);
     background: #000;
@@ -315,6 +370,25 @@
     background: var(--accent);
     border-color: var(--accent);
     color: #000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .scannerContainer {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .dropZone {
+        padding: 3rem 1rem;
+    }
+
+    .activeScanner {
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 480px) {

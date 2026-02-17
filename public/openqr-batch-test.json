@@ -1,0 +1,55 @@
+[
+  {
+    "type": "url",
+    "data": "https://openqr.dev",
+    "filename": "openqr-home"
+  },
+  {
+    "type": "url",
+    "data": "https://github.com/deepdevjose",
+    "filename": "github-profile"
+  },
+  {
+    "type": "email",
+    "email": "john@example.com",
+    "filename": "contact-email"
+  },
+  {
+    "type": "phone",
+    "phone": "+525512345678",
+    "filename": "phone-direct"
+  },
+  {
+    "type": "sms",
+    "phone": "+525512345678",
+    "message": "Hello from OpenQR",
+    "filename": "sms-test"
+  },
+  {
+    "type": "location",
+    "lat": 19.4326,
+    "lng": -99.1332,
+    "filename": "cdmx-location"
+  },
+  {
+    "type": "vcard",
+    "firstName": "Ana",
+    "lastName": "Gomez",
+    "phone": "+525598765432",
+    "email": "ana@example.com",
+    "filename": "ana-contact"
+  },
+  {
+    "type": "wifi",
+    "ssid": "MyNetwork123",
+    "password": "SuperPass123",
+    "encryption": "WPA",
+    "filename": "wifi-guest"
+  },
+  {
+    "type": "text",
+    "data": "Hello from OpenQR Batch Mode",
+    "filename": "simple-text"
+  }
+]
+

@@ -11,6 +11,33 @@
   animation: fadeIn 0.5s ease;
 }
 
+/* Generate Header Styles */
+.generateHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid rgba(255, 94, 0, 0.2);
+}
+
+.generateTitle {
+  font-family: var(--font-header);
+  font-size: 2rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.generateSubtitle {
+  font-family: var(--font-terminal);
+  color: var(--muted-text);
+  font-size: 0.95rem;
+}
+
+[data-theme='light'] .generateHeader {
+  border-bottom-color: rgba(200, 70, 10, 0.2);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -59,9 +86,14 @@
   align-items: start;
 }
 
+/* Responsive */
 @media (max-width: 1024px) {
   .content {
     gap: 3rem;
+  }
+
+  .generateTitle {
+    font-size: 1.8rem;
   }
 }
 

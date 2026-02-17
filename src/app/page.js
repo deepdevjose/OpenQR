@@ -14,6 +14,7 @@ import URLInput from './components/URLInput';
 import PreviewControls from './components/PreviewControls';
 import QRTypeSelector from './components/QRTypeSelector';
 import UniversalInput from './components/UniversalInput';
+import BatchGenerator from './components/BatchGenerator';
 import { EmailForm, PhoneForm, SMSForm, LocationForm, VCardForm, WiFiForm } from './components/QRForms';
 import { generateQRData, getDefaultDataForType } from './utils/qrHelpers';
 
@@ -285,7 +286,7 @@ export default function Home() {
   };
 
   const [mode, setMode] = useState('static'); // 'static' or 'dynamic'
-  const [activeTab, setActiveTab] = useState('generate'); // 'generate' or 'scan'
+  const [activeTab, setActiveTab] = useState('generate'); // 'generate', 'scan', or 'batch'
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
@@ -363,13 +364,31 @@ export default function Home() {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Scanner onGenerateFromResult={handleScanResult} />
         </div>
+      ) : activeTab === 'batch' ? (
+        <div style={{ width: '100%' }}>
+          <BatchGenerator 
+            options={options}
+            ecc={ecc}
+            resolution={resolution}
+            transparentBg={transparentBg}
+            logoSize={logoSize}
+          />
+        </div>
       ) : (
-        <div className={styles.content}>
-          {mode === 'static' ? (
-            <>
-              <div className={styles.controls}>
-                {/* Universal Input with Auto-Detection */}
-                <section className={styles.section}>
+        <>
+          <div className={styles.generateHeader}>
+            <h2 className={styles.generateTitle}>QR Code Generator</h2>
+            <p className={styles.generateSubtitle}>
+              Create custom QR codes with advanced styling options
+            </p>
+          </div>
+          
+          <div className={styles.content}>
+            {mode === 'static' ? (
+              <>
+                <div className={styles.controls}>
+                  {/* Universal Input with Auto-Detection */}
+                  <section className={styles.section}>
                   <label className={styles.label}>1. Paste Anything</label>
                   <UniversalInput
                     onDetect={handleAutoDetect}
@@ -594,7 +613,8 @@ export default function Home() {
               </button>
             </div>
           )}
-        </div>
+          </div>
+        </>
       )}
       <Footer />
     </main>

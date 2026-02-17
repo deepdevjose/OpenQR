@@ -24,6 +24,12 @@ export default function Navbar({ theme, toggleTheme, activeTab, setActiveTab }) 
                 >
                     SCAN
                 </button>
+                <button
+                    className={`${styles.segmentBtn} ${activeTab === 'batch' ? styles.activeSegment : ''}`}
+                    onClick={() => setActiveTab('batch')}
+                >
+                    BATCH
+                </button>
             </div>
 
             <button className={styles.themeToggle} onClick={toggleTheme} aria-label="Toggle Theme">

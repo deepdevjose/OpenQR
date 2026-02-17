@@ -1,0 +1,11 @@
+type,data,email,phone,message,lat,lng,firstName,lastName,ssid,password,encryption,filename
+url,https://openqr.dev,,,,,,,,,,openqr-home
+url,https://github.com/deepdevjose,,,,,,,,,,github-profile
+email,,john@example.com,,,,,,,,contact-email
+phone,,,+525512345678,,,,,,,,phone-direct
+sms,,,+525512345678,Hello from OpenQR,,,,,,,sms-test
+location,,,,,19.4326,-99.1332,,,,,,cdmx-location
+vcard,,,,,, ,Ana,Gomez,+525598765432,ana@example.com,,ana-contact
+wifi,,,,,,,,MyNetwork123,SuperPass123,WPA,wifi-guest
+text,Hello from OpenQR Batch Mode,,,,,,,,,,simple-text
+

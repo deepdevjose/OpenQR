@@ -255,6 +255,13 @@ export default function Scanner({ onGenerateFromResult }) {
 
     return (
         <div className={styles.scannerContainer}>
+            <div className={styles.header}>
+                <h2 className={styles.title}>QR Code Scanner</h2>
+                <p className={styles.subtitle}>
+                    Scan QR codes using your camera or upload an image
+                </p>
+            </div>
+
             <div className={styles.controls}>
 
                 {!result && !scanning && (
@@ -277,8 +284,10 @@ export default function Scanner({ onGenerateFromResult }) {
                                 accept="image/*"
                                 onChange={handleFileUpload}
                             />
-                            <Upload size={24} className={styles.uploadIcon} />
-                            <p>Drop image or click to upload</p>
+                            <Upload size={48} className={styles.uploadIcon} />
+                            <h3>Upload QR Code Image</h3>
+                            <p>Click to browse or drag & drop your QR code image</p>
+                            <span className={styles.formats}>Supports: JPG, PNG, WebP</span>
                         </div>
                         {/* Hidden div for file scanning instance */}
                         <div id="reader-file" style={{ display: 'none' }}></div>
